@@ -4,7 +4,7 @@ version = 0.1
 compress_archive = 0
 
 [bootstrap]
-main_collection = /loader/menu.collectionc
+main_collection = /loader/loader.collectionc
 
 [input]
 game_binding = /input/game.input_bindingc

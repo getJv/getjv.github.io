@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: Jhonatan Morais
 email: jhonatanvinicius@gmail.com
-description: ""
+description: "OPa!! a descrição vai aqui"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://getjv.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: getjv

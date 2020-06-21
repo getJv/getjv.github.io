@@ -1,0 +1,16 @@
+{
+  "name": "getjv.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/getJv/getjv.github.io.git",
+  "author": "Jhonatan Morais",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "vuepress": "^1.5.2"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  }
+}

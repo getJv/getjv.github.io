@@ -9,13 +9,13 @@
 
   </center>
 
-    <div class="text-center display-1">
+    <div class="text-center display-1 ">
       Jhonatan Morais
     </div>
-    <div class="text-center title">
+    <div class="text-center title ">
       Full stack developer
     </div>
-    <div class="text-center caption mb-7">
+    <div class="text-center caption mb-7  ">
       Laravel | Springboot | VueJS | Flutter
     </div>
 
@@ -26,12 +26,12 @@
      </div>
 
     <div  class="text-center mt-10 ">
-       <v-btn color="blue darken-1" outlined >
+       <v-btn color="blue darken-1" outlined to="/portfolio" >
         Portfolio
       </v-btn>
      </div>
-    <div  class="text-center mt-10 ">
-       <v-btn text small >
+    <div  class="text-center mt-10" >
+       <v-btn text small to="about-me">
         About me
       </v-btn>
      </div>
@@ -41,15 +41,13 @@
 </template>
 <script>
 
-import jhonatanImage from '~/static/jhonatan-circle-cropped.png'
+//import jhonatanImage from '~/static/jhonatan-circle-cropped.png'
 
 export default {
   name:"JhonatanLogo",
 
   computed:{
-     getPhoto(){
-      return jhonatanImage;
-    },
+
     items(){
       return [
         {
@@ -79,5 +77,14 @@ export default {
 </script>
 
 <style>
+
+.nunito{
+  font-family: 'Nunito', sans-serif;
+}
+
+.nunito .nunito-800{
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+}
 
 </style>

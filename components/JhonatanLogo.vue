@@ -4,7 +4,7 @@
     <img
       class="text-center"
       alt="Jhonatan Morais photo"
-      :src="jhonatanImage"
+      src="https://github.com/getJv/getjv.github.io/blob/master/.github/workflows/images/jhonatan-circle-cropped.png?raw=true"
     >
 
   </center>

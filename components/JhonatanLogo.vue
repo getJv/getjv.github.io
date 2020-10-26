@@ -4,13 +4,9 @@
     <img
       class="text-center"
       alt="Jhonatan Morais photo"
-      src="~/assets/jhonatan-circle-cropped.png"
+      :src="jhonatanImage"
     >
-    <img
-      class="text-center"
-      alt="Jhonatan Morais photo"
-      src="/jhonatan-circle-cropped.png"
-    >
+
   </center>
 
     <div class="text-center display-1">
@@ -45,15 +41,15 @@
 </template>
 <script>
 
-/* import jhonatanImage from '~/assets/jhonatan-circle-cropped.png' */
+import jhonatanImage from '~/static/jhonatan-circle-cropped.png'
 
 export default {
   name:"JhonatanLogo",
 
   computed:{
-    /* getPhoto(){
+     getPhoto(){
       return jhonatanImage;
-    }, */
+    },
     items(){
       return [
         {

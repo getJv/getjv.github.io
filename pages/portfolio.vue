@@ -36,8 +36,28 @@ import axios from 'axios'
     },
     methods:{
       async getData(){
-        var data = await axios.get('https://jsonplaceholder.typicode.com/todos/1');
-        console.log(data)
+        var { data } = await axios.get("https://api.github.com/users/getjv/repos?per_page=100&type=owner");
+
+        var result = [];
+
+         data.forEach(item => {
+          var  splitedDescription = item.description ? item.description.split('||') : []
+          if(splitedDescription.length > 1){
+            result.push( {
+              type: 'portfolio',
+              name: item.name,
+              description: splitedDescription[0],
+              url: item.html_url,
+              date: item.created_at,
+              tags: splitedDescription[1].toLowerCase().replace(/ /g,'').split(';')
+            });
+
+          }
+
+
+        });
+
+        console.log(result)
         return data;
       }
     },

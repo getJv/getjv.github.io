@@ -64,10 +64,10 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
-  router: {
-    base: "/getjv/"
-  },
+  /* router: {
+    base: "//"
+  }, */
   generate: {
-    dir: "public"
+    dir: "docs"
   }
 };

@@ -38,12 +38,3 @@ jobs:
 
       - name: Install dependencies 👨🏻‍💻
         run: npm ci
-
-      - name: Run linter 👀
-        run: npm run lint
-
-      - name: Site generate
-        run: npm run lint
-
-      - name: Setting base path
-        run: BASE=/getjv/ yarn generate

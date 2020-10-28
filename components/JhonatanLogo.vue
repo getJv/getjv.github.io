@@ -37,41 +37,39 @@
      </div>
   </div>
 
-
 </template>
 <script>
 
-//import jhonatanImage from '~/static/jhonatan-circle-cropped.png'
+//  import jhonatanImage from '~/static/jhonatan-circle-cropped.png'
 
 export default {
-  name:"JhonatanLogo",
+  name: 'JhonatanLogo',
 
-  computed:{
+  computed: {
 
-    items(){
+    items() {
       return [
         {
           icon: 'mdi-github',
           text: 'GitHub',
           path: 'https://github.com/getJv',
-          color: "blue darken-1"
+          color: 'blue darken-1'
         },
         {
           icon: 'mdi-linkedin',
           text: 'Linkedin',
           path: 'https://www.linkedin.com/in/jhonatan-morais/?locale=en_US',
-          color:"blue darken-3"
+          color: 'blue darken-3'
         },
         {
           icon: 'mdi-twitter',
           text: 'Twitter',
           path: 'https://twitter.com/getjv',
-          color:"blue lighten-3"
+          color: 'blue lighten-3'
         },
       ];
     }
   }
-
 
 }
 </script>

@@ -7,13 +7,16 @@
       :icon="item.icon"
       fill-dot
     >
-      <v-card>
-        <v-card-title :class="item.color" class="white--text">
-            <div class="title">{{ item.name }}</div>
+      <v-card :color="item.color"  dark>
+        <v-card-title class="headline">
+            <div class="title font-weight-light" >{{ item.name }}</div>
         </v-card-title>
-        <v-card-text class="ma-2">
-          <div class="subtitle"> created on {{ item.date }}</div>
-          <div class="body-2 mt-3">
+
+         <v-card-subtitle>created on {{ item.date | formatDate }}</v-card-subtitle>
+         <v-divider></v-divider>
+        <v-card-text class="pa-3" >
+
+          <div class="subtitle-2">
             {{ item.description }}
           </div>
 
@@ -22,10 +25,9 @@
         <v-card-actions>
           <v-btn
             outlined
-            :color="item.color"
             :href="item.url"
           >
-            Repository
+            Go Repository
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,6 +37,7 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment';
 
   export default {
     created(){
@@ -50,7 +53,7 @@ import axios from 'axios'
             this.items.push( {
               type: 'portfolio',
               color: 'purple darken-1',
-              icon: 'mdi-book-variant',
+              icon: 'mdi-github',
               name: item.name,
               description: splitedDescription[0],
               url: item.html_url,
@@ -68,25 +71,13 @@ import axios from 'axios'
       }
     },
     data: () => ({
-      items: [
-       /*  {
-          color: 'red lighten-2',
-          icon: 'mdi-star',
-        },
-        {
-          color: 'purple darken-1',
-          icon: 'mdi-book-variant',
-        },
-        {
-          color: 'green lighten-1',
-          icon: 'mdi-airballoon',
-        },
-        {
-          color: 'indigo',
-          icon: 'mdi-buffer',
-        }, */
-      ],
+      items: [],
     }),
+    filters:{
+      formatDate(value){
+        return moment(String(value)).format('YYYY-MM-DD hh:mm')
+      }
+    }
   }
 </script>
 

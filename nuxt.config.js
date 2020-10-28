@@ -65,7 +65,7 @@ export default {
   build: {},
 
   router: {
-    base: "/getjv.github.io/"
+    base: "/getjv/"
   },
   generate: {
     dir: "public"

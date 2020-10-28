@@ -66,8 +66,8 @@ export default {
 
   router: {
     base: "/getjv.github.io/"
-  } /* ,
+  },
   generate: {
     dir: "public"
-  } */
+  }
 };

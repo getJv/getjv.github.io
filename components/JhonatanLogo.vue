@@ -10,7 +10,7 @@
   </center>
 
     <div class="text-center display-1 ">
-      Jhonatan Morais 222
+      Jhonatan Morais
     </div>
     <div class="text-center title ">
       Full stack developer

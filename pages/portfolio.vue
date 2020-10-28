@@ -7,21 +7,27 @@
       :icon="item.icon"
       fill-dot
     >
-      <v-card
-        :color="item.color"
-        dark
-      >
-        <v-card-title class="title">Lorem Ipsum Dolor</v-card-title>
-        <v-card-text class="white text--primary">
-          <p>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</p>
-          <v-btn
-            :color="item.color"
-            class="mx-0"
-            outlined
-          >
-            Button
-          </v-btn>
+      <v-card>
+        <v-card-title :class="item.color" class="white--text">
+            <div class="title">{{ item.name }}</div>
+        </v-card-title>
+        <v-card-text class="ma-2">
+          <div class="subtitle"> created on {{ item.date }}</div>
+          <div class="body-2 mt-3">
+            {{ item.description }}
+          </div>
+
+
         </v-card-text>
+        <v-card-actions>
+          <v-btn
+            outlined
+            :color="item.color"
+            :href="item.url"
+          >
+            Repository
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-timeline-item>
   </v-timeline>
@@ -38,13 +44,13 @@ import axios from 'axios'
       async getData(){
         var { data } = await axios.get("https://api.github.com/users/getjv/repos?per_page=100&type=owner");
 
-        var result = [];
-
          data.forEach(item => {
           var  splitedDescription = item.description ? item.description.split('||') : []
           if(splitedDescription.length > 1){
-            result.push( {
+            this.items.push( {
               type: 'portfolio',
+              color: 'purple darken-1',
+              icon: 'mdi-book-variant',
               name: item.name,
               description: splitedDescription[0],
               url: item.html_url,
@@ -57,13 +63,13 @@ import axios from 'axios'
 
         });
 
-        console.log(result)
+        //console.log(result)
         return data;
       }
     },
     data: () => ({
       items: [
-        {
+       /*  {
           color: 'red lighten-2',
           icon: 'mdi-star',
         },
@@ -78,7 +84,7 @@ import axios from 'axios'
         {
           color: 'indigo',
           icon: 'mdi-buffer',
-        },
+        }, */
       ],
     }),
   }

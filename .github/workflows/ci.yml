@@ -36,3 +36,6 @@ jobs:
 
       - name: Install dependencies 👨🏻‍💻
         run: npm ci
+
+      - name: Generate the site 👨🏻‍💻
+        run: npm run deploy

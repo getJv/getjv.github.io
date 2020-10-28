@@ -1,13 +1,15 @@
 {
   "name": "getjv.github.io",
   "version": "1.0.0",
+  "homepage": "https://getjv.github.io",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "nuxt-ts generate",
-    "deploy": "nuxt-ts build && nuxt-ts generate && gh-pages -d dist && git add . && git commit -m \"new release\" && git push origin master",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },

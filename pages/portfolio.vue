@@ -9,7 +9,7 @@
         <span v-else> Git Repositories ready! </span>
       </v-row>
     </v-overlay>
-    <v-timeline v-else align-top :dense="$vuetify.breakpoint.smAndDown">
+    <v-timeline v-else align-top :dense="smallScreen">
       <v-timeline-item
         v-for="(item, i) in items"
         :key="i"
@@ -45,7 +45,7 @@
               <slide>
                 <v-row justify="center" align="center">
                   <v-img
-                    :max-width="200"
+                    :max-width="smallScreen ? 200 : 350"
                     :src="
                       `${item.url}/blob/master/.github/preview.gif?raw=true`
                     "
@@ -83,17 +83,28 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import { Carousel, Slide } from "vue-carousel";
+//import { Carousel, Slide } from "vue-carousel";
 
 export default {
-  components: {
+  /* components: {
     Carousel,
     Slide
-  },
+  }, */
   created() {
     this.getGitData();
   },
+  mounted() {
+    /**
+     * O componente teve que ser inportado por aqui pois assim renderiza do lado do cliente.
+     * Parece ser uma limitação do nuxt e tbm next
+     * https://github.com/space10-community/conversational-form/issues/303
+     */
+    //const { Carousel, Slide } = require("vue-carousel");
+  },
   computed: {
+    smallScreen() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
     loading() {
       return this.gitLoading;
     }

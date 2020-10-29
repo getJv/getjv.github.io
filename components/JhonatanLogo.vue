@@ -47,6 +47,7 @@ export default {
     image() {
       return jhonatanImage;
     },
+
     items() {
       return [
         {

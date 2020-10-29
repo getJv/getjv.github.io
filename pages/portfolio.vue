@@ -47,7 +47,7 @@
                   <v-img
                     :max-width="200"
                     :src="
-                      `${html_url}/biolotus-site/blob/master/.github/preview.gif?raw=true`
+                      `${item.url}/blob/master/.github/preview.gif?raw=true`
                     "
                   />
                 </v-row>
@@ -62,7 +62,13 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn small :color="item.color" outlined :href="item.url">
+            <v-btn
+              v-if="item.homepage"
+              small
+              :color="item.color"
+              outlined
+              :href="item.homepage"
+            >
               Live Preview
             </v-btn>
           </v-card-actions>
@@ -111,7 +117,7 @@ export default {
             name: item.name,
             description: splitedDescription[0],
             url: item.html_url,
-            homepage: item.homrpage,
+            homepage: item.homepage,
             date: item.created_at,
             tags: splitedDescription[1]
               .toLowerCase()

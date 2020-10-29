@@ -9,98 +9,118 @@
         <span v-else> Git Repositories ready! </span>
       </v-row>
     </v-overlay>
-    <v-timeline v-else align-top :dense="smallScreen">
-      <v-timeline-item
-        v-for="(item, i) in items"
-        :key="i"
-        :color="item.color"
-        :icon="item.icon"
-        fill-dot
-      >
-        <v-card>
-          <v-card-title :class="`${item.color}`">
-            <div class="title font-weight-bold white--text">
-              {{ item.name }}
-            </div>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-subtitle>
-            created on {{ item.date | formatDate }}
-          </v-card-subtitle>
+    <div v-else>
+      <v-expansion-panels>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            Filter by technologies
+            <template v-slot:actions>
+              <v-icon color="primary">$expand</v-icon>
+            </template>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <span v-for="(tag, index) in tags" :key="index">
+              <v-chip
+                class="mx-2 mt-5"
+                :color="tag.color"
+                label
+                text-color="white"
+              >
+                <v-icon left> {{ tag.icon }} </v-icon>
+                {{ tag.tag }}
+              </v-chip>
+            </span>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
-          <v-card-text class="">
-            <carousel
-              :per-page="1"
-              autoplay
-              centerMode
-              loop
-              :autoplayTimeout="randomTimer()"
-              :speed="3000"
-            >
-              <slide>
-                <div class="subtitle-2">
-                  {{ item.description }}
-                </div>
-              </slide>
-              <slide>
-                <v-row justify="center" align="center">
-                  <v-img
-                    :max-width="smallScreen ? 200 : 350"
-                    :src="
-                      `${item.url}/blob/master/.github/preview.gif?raw=true`
-                    "
-                  />
-                </v-row>
-              </slide>
-            </carousel>
-          </v-card-text>
+      <v-row justify="center" align="center">
+        <span class="display-1 font-weight-light my-3"
+          >Jhonatan's Portfolio Timeline</span
+        >
+      </v-row>
+      <v-divider></v-divider>
+      <v-timeline align-top :dense="smallScreen">
+        <v-timeline-item
+          v-for="(item, i) in items"
+          :key="i"
+          :color="item.color"
+          :icon="item.icon"
+          fill-dot
+        >
+          <v-card>
+            <v-card-title :class="`${item.color}`">
+              <div class="title font-weight-bold white--text">
+                {{ item.name }}
+              </div>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-card-subtitle>
+              created on {{ item.date | formatDate }}
+            </v-card-subtitle>
 
-          <v-card-actions>
-            <v-btn small :color="item.color" outlined :href="item.url">
-              Repository
-            </v-btn>
+            <v-card-text class="">
+              <div class="subtitle-2">
+                {{ item.description }}
+              </div>
 
-            <v-spacer></v-spacer>
+              <v-row justify="center" align="center">
+                <v-img
+                  :max-width="smallScreen ? 200 : 350"
+                  :src="`${item.url}/blob/master/.github/preview.gif?raw=true`"
+                />
+              </v-row>
+              <v-row>
+                <span v-for="(tag, index) in item.tags" :key="index">
+                  <v-chip
+                    v-if="tag && !smallScreen"
+                    class="mx-2 mt-5"
+                    :color="tagInfo(tag.trim()).color"
+                    label
+                    text-color="white"
+                  >
+                    <v-icon left> {{ tagInfo(tag.trim()).icon }} </v-icon>
+                    {{ tag.trim() }}
+                  </v-chip>
+                </span>
+              </v-row>
+            </v-card-text>
 
-            <v-btn
-              v-if="item.homepage"
-              small
-              :color="item.color"
-              outlined
-              :loading="startingServer.includes(item.name)"
-              @click="startingServer.push(item.name)"
-              :href="item.homepage"
-            >
-              Live Preview
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-timeline-item>
-    </v-timeline>
+            <v-card-actions>
+              <v-btn small :color="item.color" outlined :href="item.url">
+                Repository
+              </v-btn>
+
+              <v-spacer></v-spacer>
+
+              <v-btn
+                v-if="item.homepage"
+                small
+                :color="item.color"
+                outlined
+                :loading="startingServer.includes(item.name)"
+                @click="startingServer.push(item.name)"
+                :href="item.homepage"
+              >
+                Live Preview
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-timeline-item>
+      </v-timeline>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import moment from "moment";
-//import { Carousel, Slide } from "vue-carousel";
 
 export default {
-  /* components: {
-    Carousel,
-    Slide
-  }, */
   created() {
     this.getGitData();
   },
-  mounted() {
-    /**
-     * O componente teve que ser inportado por aqui pois assim renderiza do lado do cliente.
-     * Parece ser uma limitação do nuxt e tbm next
-     * https://github.com/space10-community/conversational-form/issues/303
-     */
-    //const { Carousel, Slide } = require("vue-carousel");
-  },
+
   computed: {
     smallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
@@ -110,6 +130,15 @@ export default {
     }
   },
   methods: {
+    tagInfo(tagName) {
+      return (
+        this.tags.find(item => item.tag == tagName) || {
+          tag: tagName,
+          color: "cyan darken-2",
+          icon: "mdi-label"
+        }
+      );
+    },
     randomTimer() {
       return Math.floor(Math.random() * 3000 + 3000);
     },
@@ -148,7 +177,94 @@ export default {
   data: () => ({
     items: [],
     gitLoading: true,
-    startingServer: []
+    startingServer: [],
+    tags: [
+      {
+        tag: "portfolio",
+        color: "purple darken-1",
+        icon: "mdi-github"
+      },
+      {
+        tag: "interview-test",
+        color: "cyan darken-2",
+        icon: "mdi-lan-check"
+      },
+      {
+        tag: "php",
+        color: "blue darken-3",
+        icon: "mdi-language-php"
+      },
+      {
+        tag: "laravel",
+        color: "orange darken-5",
+        icon: "mdi-laravel"
+      },
+      {
+        tag: "html",
+        color: "orange darken-3",
+        icon: "mdi-language-html5"
+      },
+      {
+        tag: "typescript",
+        color: "red darken-3",
+        icon: "mdi-language-typescript"
+      },
+      {
+        tag: "java",
+        color: "blue-gray darken-3",
+        icon: "mdi-language-java"
+      },
+      {
+        tag: "javascript",
+        color: "yellow darken-3",
+        icon: "mdi-language-javascript"
+      },
+      {
+        tag: "docker",
+        color: "blue darken-1",
+        icon: "mdi-docker"
+      },
+      {
+        tag: "docker-compose",
+        color: "blue darken-1",
+        icon: "mdi-docker"
+      },
+      {
+        tag: "css",
+        color: "pink darken-1",
+        icon: "mdi-language-css3"
+      },
+      {
+        tag: "tailwind",
+        color: "green darken-1",
+        icon: "mdi-weather-windy-variant"
+      },
+      {
+        tag: "vuetify",
+        color: "blue darken-1",
+        icon: "mdi-vuetify"
+      },
+      {
+        tag: "reactjs",
+        color: "blue darken-1",
+        icon: "mdi-react"
+      },
+      {
+        tag: "tdd",
+        color: "red darken-1",
+        icon: "mdi-test-tube"
+      },
+      {
+        tag: "php-unit",
+        color: "red darken-1",
+        icon: "mdi-test-tube"
+      },
+      {
+        tag: "vuejs",
+        color: "green darken-3",
+        icon: "mdi-vuejs"
+      }
+    ]
   }),
   filters: {
     formatDate(value) {

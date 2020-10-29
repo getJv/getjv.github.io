@@ -67,6 +67,8 @@
               small
               :color="item.color"
               outlined
+              :loading="startingServer.includes(item.name)"
+              @click="startingServer.push(item.name)"
               :href="item.homepage"
             >
               Live Preview
@@ -134,7 +136,8 @@ export default {
   },
   data: () => ({
     items: [],
-    gitLoading: true
+    gitLoading: true,
+    startingServer: []
   }),
   filters: {
     formatDate(value) {

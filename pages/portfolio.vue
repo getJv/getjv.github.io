@@ -10,7 +10,7 @@
       </v-row>
     </v-overlay>
     <div v-else>
-      <v-expansion-panels>
+      <v-expansion-panels hover focusable>
         <v-expansion-panel>
           <v-expansion-panel-header>
             Filter by technologies
@@ -35,9 +35,12 @@
       </v-expansion-panels>
 
       <v-row justify="center" align="center">
-        <span class="display-1 font-weight-light my-3"
-          >Jhonatan's Portfolio Timeline</span
-        >
+        <span v-if="!smallScreen" class="display-1 font-weight-light my-3">
+          Jhonatan's Portfolio Timeline
+        </span>
+        <span v-else class="title font-weight-light my-3">
+          Jhonatan's Portfolio Timeline
+        </span>
       </v-row>
       <v-divider></v-divider>
       <v-timeline align-top :dense="smallScreen">

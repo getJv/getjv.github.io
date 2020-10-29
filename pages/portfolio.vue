@@ -45,7 +45,7 @@
               <slide>
                 <v-row justify="center" align="center">
                   <v-img
-                    :max-width="300"
+                    :max-width="200"
                     src="https://github.com/getJv/biolotus-site/blob/master/.github/preview.gif?raw=true"
                   />
                 </v-row>

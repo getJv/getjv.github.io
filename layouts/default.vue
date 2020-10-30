@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <div class="local-body" :style="`background-image: url(${backgroundUrl})`">
+    <div
+      class="local-body"
+      :style="{ 'background-image': `url(${backgroundUrl})` }"
+    >
       <v-navigation-drawer
         v-if="false"
         v-model="drawer"

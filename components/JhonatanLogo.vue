@@ -1,42 +1,44 @@
 <template>
-  <div>
-    <center>
-      <img class="text-center" alt="Jhonatan Morais photo" :src="image" />
+  <v-card>
+    <center class="mt-n15">
+      <img class="text--center" alt="Jhonatan Morais photo" :src="image" />
     </center>
 
-    <div class="text-center display-1 ">
-      Jhonatan Morais
-    </div>
-    <div class="text-center title ">
-      Full stack developer
-    </div>
-    <div class="text-center caption mb-7  ">
-      Laravel | Springboot | VueJS | Flutter
-    </div>
+    <v-card-text class="pa-8">
+      <div class="text-center display-1 ">
+        Jhonatan Morais
+      </div>
+      <div class="text-center title ">
+        Full stack developer
+      </div>
+      <div class="text-center caption mb-7  ">
+        Laravel | Springboot | VueJS | Flutter
+      </div>
 
-    <div class="text-center">
-      <v-btn
-        v-for="(item, i) in items"
-        :key="i"
-        :href="item.path"
-        icon
-        class="mx-2 "
-      >
-        <v-icon v-text="item.icon" :color="item.color"></v-icon>
-      </v-btn>
-    </div>
+      <div class="text-center">
+        <v-btn
+          v-for="(item, i) in items"
+          :key="i"
+          :href="item.path"
+          icon
+          class="mx-2 "
+        >
+          <v-icon v-text="item.icon" :color="item.color"></v-icon>
+        </v-btn>
+      </div>
 
-    <div class="text-center mt-10 ">
-      <v-btn color="blue darken-1" outlined to="/portfolio">
-        Portfolio
-      </v-btn>
-    </div>
-    <div class="text-center mt-10">
-      <v-btn text small to="about-me">
-        About me
-      </v-btn>
-    </div>
-  </div>
+      <div class="text-center mt-10 ">
+        <v-btn color="blue darken-1" outlined to="/portfolio">
+          Portfolio
+        </v-btn>
+      </div>
+      <div class="text-center mt-10">
+        <v-btn text small to="about-me">
+          About me
+        </v-btn>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import jhonatanImage from "~/assets/jhonatan-circle-cropped.png";
@@ -67,6 +69,12 @@ export default {
           text: "Twitter",
           path: "https://twitter.com/getjv",
           color: "blue lighten-3"
+        },
+        {
+          icon: "mdi-pdf-box",
+          text: "Resume",
+          path: "",
+          color: "red darken-3"
         }
       ];
     }

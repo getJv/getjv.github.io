@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="portfolio pa-3">
     <v-overlay v-if="loading">
       <v-row justify="center" align="center" class="mb-5">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -19,15 +19,24 @@
             </template>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <span v-for="(tag, index) in tags" :key="index">
+            <center>
+              <small>
+                ({{ filters.length }} Filters,
+                {{ portfoliItems.length }} results)
+              </small>
+            </center>
+            <v-divider></v-divider>
+            <span v-for="(item, index) in tagList" :key="index">
               <v-chip
                 class="mx-2 mt-5"
-                :color="tag.color"
+                :color="item.color"
                 label
-                text-color="white"
+                :outlined="!filters.includes(item.tag)"
+                :text-color="!filters.includes(item.tag) ? item.color : 'white'"
+                @click="toggleFilter(item.tag)"
               >
-                <v-icon left> {{ tag.icon }} </v-icon>
-                {{ tag.tag }}
+                <v-icon left> {{ item.icon }} </v-icon>
+                {{ item.tag }}
               </v-chip>
             </span>
           </v-expansion-panel-content>
@@ -45,7 +54,7 @@
       <v-divider></v-divider>
       <v-timeline align-top :dense="smallScreen">
         <v-timeline-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in portfoliItems"
           :key="i"
           :color="item.color"
           :icon="item.icon"
@@ -125,14 +134,50 @@ export default {
   },
 
   computed: {
+    portfoliItems() {
+      if (this.filters.length === 0) return this.items;
+      var wantedList = [];
+      this.filters.forEach(filter => {
+        this.items.forEach(porfolioItem => {
+          if (porfolioItem.tags.some(tag => tag === filter)) {
+            if (
+              !wantedList.find(filtered => filtered.name == porfolioItem.name)
+            ) {
+              wantedList.push(porfolioItem);
+            }
+          }
+        });
+      });
+
+      return wantedList;
+    },
     smallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
     },
     loading() {
       return this.gitLoading;
+    },
+    tagList() {
+      return this.tags.sort(function(a, b) {
+        if (a.tag < b.tag) {
+          return -1;
+        }
+        if (a.tag > b.tag) {
+          return 1;
+        }
+        return 0;
+      });
     }
   },
   methods: {
+    toggleFilter(tagName) {
+      var index = this.filters.indexOf(tagName);
+      if (index > -1) {
+        this.filters.splice(index, 1);
+      } else {
+        this.filters.push(tagName);
+      }
+    },
     tagInfo(tagName) {
       return (
         this.tags.find(item => item.tag == tagName) || {
@@ -179,6 +224,7 @@ export default {
   },
   data: () => ({
     items: [],
+    filters: [],
     gitLoading: true,
     startingServer: [],
     tags: [
@@ -276,3 +322,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.portfolio {
+  background-color: #fff;
+  margin: 0 auto;
+}
+</style>

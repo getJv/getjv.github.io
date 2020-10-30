@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="local-body">
+    <div class="local-body" :style="`background-image: url(${backgroundUrl})`">
       <v-navigation-drawer
         v-if="false"
         v-model="drawer"
@@ -52,11 +52,7 @@
         <span>&copy; {{ new Date().getFullYear() }}</span>
         <!-- Foto de Markus Spiske no Pexels -->
       </v-footer>
-      <style>
-        :root {
-          --bg-image: url("{{backgroundUrl}}");
-        }
-      </style>
+      <style></style>
     </div>
   </v-app>
 </template>
@@ -92,7 +88,6 @@ export default {
 .local-body {
   height: 100%;
   width: 100%;
-  background-image: var(--bg-image);
   background-repeat: repeat-x;
   background-position: center;
   background-size: cover;

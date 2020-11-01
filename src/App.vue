@@ -1,8 +1,5 @@
 <template>
-  <v-app
-    class="local-body"
-    :style="{ 'background-image': `url(${backgroundUrl})` }"
-  >
+  <v-app>
     <v-main>
       <router-view></router-view>
     </v-main>
@@ -10,13 +7,10 @@
 </template>
 
 <script>
-import backgroundUrl from "@/assets/bg.jpg";
 export default {
   name: "App",
 
-  data: () => ({
-    backgroundUrl,
-  }),
+  data: () => ({}),
 };
 </script>
 <style>

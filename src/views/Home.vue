@@ -1,5 +1,11 @@
 <template>
-  <v-row justify="center" align="center" style="height:100vh">
+  <v-row
+    justify="center"
+    align="center"
+    style="height:100vh"
+    class="local-body"
+    :style="{ 'background-image': `url(${backgroundUrl})` }"
+  >
     <v-card>
       <center class="mt-n15">
         <img class="text--center" alt="Jhonatan Morais photo" :src="image" />
@@ -37,8 +43,14 @@
 
 <script>
 import jhonatanImage from "@/assets/jhonatan-circle-cropped.png";
+import backgroundUrl from "@/assets/bg.jpg";
 export default {
   name: "Home",
+  data() {
+    return {
+      backgroundUrl,
+    };
+  },
   computed: {
     image() {
       return jhonatanImage;

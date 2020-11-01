@@ -1,11 +1,13 @@
 <template>
   <div class="portfolio pa-3">
-    <v-overlay v-if="loading">
+    <v-overlay v-if="$store.getters.loadingPortfolio">
       <v-row justify="center" align="center" class="mb-5">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-row>
       <v-row justify="center" align="center">
-        <span v-if="gitLoading"> Git Repositories loading ... </span>
+        <span v-if="$store.getters.loadingGitRepositories">
+          Git Repositories loading ...
+        </span>
         <span v-else> Git Repositories ready! </span>
       </v-row>
     </v-overlay>
@@ -22,7 +24,7 @@
             <center>
               <small>
                 ({{ filters.length }} Filters,
-                {{ portfoliItems.length }} results)
+                {{ $store.getters.portfolioItemsSize }} results)
               </small>
             </center>
             <v-divider></v-divider>
@@ -54,7 +56,7 @@
       <v-divider></v-divider>
       <v-timeline align-top :dense="smallScreen">
         <v-timeline-item
-          v-for="(item, i) in portfoliItems"
+          v-for="(item, i) in $store.getters.portfolioItems"
           :key="i"
           :color="item.color"
           :icon="item.icon"
@@ -125,11 +127,11 @@
 </template>
 
 <script>
-import axios from "axios";
 import moment from "moment";
+
 export default {
   created() {
-    this.getGitData();
+    this.$store.dispatch("fetchGitRepositories");
   },
 
   computed: {
@@ -189,42 +191,9 @@ export default {
     randomTimer() {
       return Math.floor(Math.random() * 3000 + 3000);
     },
-    async getGitData() {
-      var { data } = await axios.get(
-        "https://api.github.com/users/getjv/repos?per_page=100&type=owner"
-      );
-
-      data.forEach((item) => {
-        var splitedDescription = item.description
-          ? item.description.split("||")
-          : [];
-        if (splitedDescription.length > 1) {
-          this.items.push({
-            type: "portfolio",
-            color: "purple darken-1",
-            icon: "mdi-github",
-            name: item.name,
-            description: splitedDescription[0],
-            url: item.html_url,
-            homepage: item.homepage,
-            date: item.created_at,
-            tags: splitedDescription[1]
-              .toLowerCase()
-              .replace(/ /g, "")
-              .split(";"),
-          });
-        }
-      });
-
-      //console.log(result)
-      this.gitLoading = false;
-      return data;
-    },
   },
   data: () => ({
-    items: [],
     filters: [],
-    gitLoading: true,
     startingServer: [],
     tags: [
       {

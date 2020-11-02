@@ -136,7 +136,18 @@ const getters = {
   loadingSO: (state) => state.loadingSOposts,
   loadingPortfolio: (state) => state.loadingGitRepositories &&  state.loadingGitIssues && state.loadingSOposts,
   
-  portfolioItems: (state) => state.portfolioItems,
+  portfolioItems: (state) => { 
+
+    return state.portfolioItems.sort((a, b) => {
+      if (a.date > b.date) {
+        return -1;
+      }
+      if (a.date < b.date) {
+        return 1;
+      }
+      return 0;
+    });
+  },
   portfolioItemsSize: (state) => state.portfolioItems.length,
 
   techTags: (state) => { 
@@ -219,7 +230,7 @@ const actions = {
           type: "gitIssues",
           color: "blue darken-3",
           icon: "mdi-github",
-          name: `${item.number} - ${item.title}`,
+          name: item.title,
           description: item.body,
           url: item.html_url,
           homepage: null,
@@ -250,7 +261,7 @@ const actions = {
           type: "gitPull",
           color: "pink lighten-1",
           icon: "mdi-github",
-          name: `${item.number} - ${item.title}`,
+          name: item.title,
           description: item.body,
           url: item.html_url,
           homepage: null,

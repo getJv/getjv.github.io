@@ -79,8 +79,15 @@ export default {
         {
           icon: "mdi-pdf-box",
           text: "Resume",
-          path: "",
+          path:
+            "https://raw.githubusercontent.com/getJv/getjv.github.io/master/.github/resume.pdf",
           color: "red darken-3",
+        },
+        {
+          icon: "mdi-email",
+          text: "E-mail me",
+          path: "mailto:jhonatanvinicius@gmail.com",
+          color: "cyan darken-3",
         },
       ];
     },

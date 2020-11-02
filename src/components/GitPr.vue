@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title :class="`${item.color}`">
-      <div class="title font-weight-bold white--text">
+      <div class="subtitle font-weight-regular white--text">
         {{ item.name }}
       </div>
     </v-card-title>
@@ -9,7 +9,9 @@
     <v-card-subtitle> created on {{ item.date | formatDate }} </v-card-subtitle>
 
     <v-card-text class="">
-      <vue-simple-markdown :source="item.description"></vue-simple-markdown>
+      <vue-simple-markdown
+        :source="item.description | truncate(250, '...')"
+      ></vue-simple-markdown>
 
       <v-row>
         <span v-for="(tag, index) in item.tags" :key="index">

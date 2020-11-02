@@ -79,22 +79,53 @@
           Jhonatan's Portfolio Timeline
         </span>
       </v-row>
+      <v-row justify="center" align="center" class="my-2">
+        <v-btn-toggle v-model="toggle_exclusive">
+          <v-btn small>
+            <v-icon>mdi-chart-timeline</v-icon>
+          </v-btn>
+
+          <v-btn small>
+            <v-icon>mdi-view-grid</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+      </v-row>
       <v-divider></v-divider>
-      <v-timeline align-top :dense="smallScreen">
-        <v-timeline-item
-          v-for="(item, i) in portfoliItems"
-          :key="`${item.name}-${i}`"
-          :color="item.color"
-          :icon="item.icon"
-          fill-dot
-        >
-          <v-component
-            :is="item.type"
-            :smallScreen="smallScreen"
-            :item="item"
-          />
-        </v-timeline-item>
-      </v-timeline>
+      <span v-if="toggle_exclusive == 0">
+        <v-timeline align-top :dense="smallScreen">
+          <v-timeline-item
+            v-for="(item, i) in portfoliItems"
+            :key="`${item.name}-${i}`"
+            :color="item.color"
+            :icon="item.icon"
+            fill-dot
+          >
+            <v-component
+              :is="item.type"
+              :smallScreen="smallScreen"
+              :item="item"
+            />
+          </v-timeline-item>
+        </v-timeline>
+      </span>
+      <span v-else-if="toggle_exclusive == 1">
+        <v-row>
+          <v-col
+            cols="12"
+            md="4"
+            lg="3"
+            v-for="(item, i) in portfoliItems"
+            :key="`${item.name}-${i}`"
+          >
+            <v-component
+              class="my-2"
+              :is="item.type"
+              :smallScreen="smallScreen"
+              :item="item"
+            />
+          </v-col>
+        </v-row>
+      </span>
     </div>
   </div>
 </template>
@@ -111,6 +142,8 @@ export default {
     gitPull,
   },
   created() {
+    this.$store.dispatch("toogleHeaderAndFooter");
+    this.$store.dispatch("setHeaderText", "Jhonatan's Portfolio");
     this.$store.dispatch("fetchGitRepositories");
     this.$store.dispatch("fetchGitIssues");
     this.$store.dispatch("fetchGitPullRequests");
@@ -154,6 +187,7 @@ export default {
   },
   data: () => ({
     filters: [],
+    toggle_exclusive: 0,
   }),
 };
 </script>

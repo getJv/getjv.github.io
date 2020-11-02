@@ -1,44 +1,54 @@
 <template>
-  <v-row
-    justify="center"
-    align="center"
-    style="height:100vh"
+  <div
     class="local-body"
     :style="{ 'background-image': `url(${backgroundUrl})` }"
   >
-    <v-card>
-      <center class="mt-n15">
-        <img class="text--center" alt="Jhonatan Morais photo" :src="image" />
-      </center>
-      <v-card-text class="pa-8">
-        <div class="text-center display-1 ">
-          Jhonatan Morais
-        </div>
-        <div class="text-center title ">
-          Full Stack developer
-        </div>
-        <div class="text-center caption mb-7  ">
-          Laravel | Springboot | VueJS | Flutter
-        </div>
-        <div class="text-center">
-          <v-btn
-            v-for="(item, i) in items"
-            :key="i"
-            :href="item.path"
-            icon
-            class="mx-2 "
-          >
-            <v-icon v-text="item.icon" :color="item.color"></v-icon>
-          </v-btn>
-        </div>
-        <div class="text-center mt-10 ">
-          <v-btn color="blue darken-1" outlined to="/portfolio">
-            Portfolio
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-row>
+    <v-container>
+      <v-row justify="center" align="center" style="height:100vh">
+        <v-col cols="11" sm="6" md="5" lg="4" xl="3">
+          <v-card>
+            <v-card-title>
+              <v-row justify="center" align="center">
+                <v-card color="transparent" flat class="mt-n15">
+                  <v-avatar size="150">
+                    <v-img alt="Jhonatan Morais photo" :src="image" />
+                  </v-avatar>
+                </v-card>
+              </v-row>
+            </v-card-title>
+
+            <v-card-text class="pa-4">
+              <div class="text-center display-1 ">
+                Jhonatan Morais
+              </div>
+              <div class="text-center title ">
+                Full stack Developer
+              </div>
+              <div class="text-center caption mb-7  ">
+                Laravel | Springboot | VueJS | Flutter
+              </div>
+              <div class="text-center">
+                <v-btn
+                  v-for="(item, i) in items"
+                  :key="i"
+                  :href="item.path"
+                  icon
+                  class="mx-2"
+                >
+                  <v-icon v-text="item.icon" :color="item.color"></v-icon>
+                </v-btn>
+              </div>
+              <div class="text-center mt-10 ">
+                <v-btn color="blue darken-1" outlined to="/portfolio">
+                  Portfolio
+                </v-btn>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -94,3 +104,14 @@ export default {
   },
 };
 </script>
+<style>
+.local-body {
+  height: 100%;
+  width: 100%;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: cover;
+  margin: 0;
+  overflow: hidden; /* Hide scrollbars */
+}
+</style>

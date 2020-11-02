@@ -55,14 +55,14 @@
       </v-expansion-panels>
 
       <v-row justify="center" align="center">
-        <span v-if="!smallScreen" class="display-1 font-weight-light my-3">
-          Jhonatan's Portfolio Timeline
+        <span v-if="!smallScreen" class="display-1 font-weight-light mt-3 mb-1">
+          Projects and actions Timeline
         </span>
-        <span v-else class="title font-weight-light my-3">
-          Jhonatan's Portfolio Timeline
+        <span v-else class="title font-weight-light mt-3 mb-1">
+          Projects and actions Timeline
         </span>
       </v-row>
-      <v-row justify="center" align="center" class="my-2">
+      <v-row justify="center" align="center" class="mt-1 mb-2">
         <v-btn-toggle v-model="toggle_exclusive">
           <v-btn small>
             <v-icon>mdi-chart-timeline</v-icon>

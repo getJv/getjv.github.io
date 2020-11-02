@@ -33,14 +33,3 @@ export default {
   },
 };
 </script>
-<style>
-.local-body {
-  height: 100%;
-  width: 100%;
-  background-repeat: repeat-x;
-  background-position: center;
-  background-size: cover;
-  margin: 0;
-  overflow: hidden; /* Hide scrollbars */
-}
-</style>

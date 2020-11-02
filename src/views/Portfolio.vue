@@ -84,7 +84,7 @@
             fill-dot
           >
             <v-row align="center" :justify="i % 2 == 0 ? 'start' : 'end'">
-              <v-col cols="12" sm="10" md="8" lg="6">
+              <v-col cols="12" sm="10" md="10" lg="8">
                 <v-component
                   :is="item.type"
                   :smallScreen="smallScreen"

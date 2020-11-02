@@ -1,24 +1,14 @@
 <template>
   <v-card>
     <v-card-title :class="`${item.color}`">
-      <div class="title font-weight-bold white--text">
+      <div class="subtitle font-weight-regular white--text">
         {{ item.name }}
       </div>
     </v-card-title>
     <v-divider></v-divider>
-    <v-card-subtitle> updated on {{ item.date | formatDate }} </v-card-subtitle>
+    <v-card-subtitle> created on {{ item.date | formatDate }} </v-card-subtitle>
 
     <v-card-text class="">
-      <div class="subtitle-2">
-        {{ item.description }}
-      </div>
-
-      <v-row justify="center" align="center">
-        <v-img
-          :max-width="smallScreen ? 200 : 350"
-          :src="`${item.url}/blob/master/.github/preview.gif?raw=true`"
-        />
-      </v-row>
       <v-row>
         <span v-for="(tag, index) in item.tags" :key="index">
           <v-chip
@@ -37,30 +27,20 @@
 
     <v-card-actions>
       <v-btn small :color="item.color" outlined :href="item.url">
-        Repository
+        Visit Issue
       </v-btn>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        v-if="item.homepage"
-        small
-        :color="item.color"
-        outlined
-        :loading="startingServer.includes(item.name)"
-        @click="startingServer.push(item.name)"
-        :href="item.homepage"
-      >
-        Live Preview
-      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import moment from "moment";
+
 export default {
-  name: "gitRepository",
+  name: "Stackoverflow",
+
   props: {
     item: {
       type: Object,
@@ -82,9 +62,7 @@ export default {
       );
     },
   },
-  data: () => ({
-    startingServer: [],
-  }),
+  data: () => ({}),
   filters: {
     formatDate(value) {
       return moment(String(value)).format("YYYY-MM-DD hh:mm");

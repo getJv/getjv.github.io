@@ -1,23 +1,6 @@
 <template>
   <div class="portfolio pa-3">
-    <v-overlay v-if="$store.getters.loadingPortfolio">
-      <v-row justify="center" align="center" class="mb-5">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-      </v-row>
-      <v-row justify="center" align="center">
-        <span v-if="$store.getters.loadingGitRepositories">
-          Git Repositories loading ...
-        </span>
-        <span v-else> Git Repositories ready! </span>
-      </v-row>
-      <v-row justify="center" align="center">
-        <span v-if="$store.getters.loadingGitIssues">
-          Git issues loading ...
-        </span>
-        <span v-else> Git issues ready! </span>
-      </v-row>
-    </v-overlay>
-    <div v-else>
+    <div v-if="!$store.getters.loadingPortfolio">
       <v-expansion-panels hover focusable>
         <v-expansion-panel>
           <v-expansion-panel-header>
@@ -30,7 +13,7 @@
             <center>
               <small>
                 ({{ filters.length }} Filters,
-                {{ $store.getters.portfolioItemsSize }} results)
+                {{ portfoliItems.length }} results)
               </small>
             </center>
             <div class="captain mt-5">
@@ -128,6 +111,35 @@
         </v-row>
       </span>
     </div>
+    <v-overlay v-else>
+      <v-row justify="center" align="center" class="mb-5">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-row>
+      <v-row justify="center" align="center">
+        <span v-if="$store.getters.loadingGitRepositories">
+          Git Repositories loading ...
+        </span>
+        <span v-else> Git Repositories ready! </span>
+      </v-row>
+      <v-row justify="center" align="center">
+        <span v-if="$store.getters.loadingGitIssues">
+          Git issues loading ...
+        </span>
+        <span v-else> Git issues ready! </span>
+      </v-row>
+      <v-row justify="center" align="center">
+        <span v-if="$store.getters.loadingGitIssues">
+          Git Pr's loading ...
+        </span>
+        <span v-else> Git Pr's ready! </span>
+      </v-row>
+      <v-row justify="center" align="center">
+        <span v-if="$store.getters.loadingGitIssues">
+          StackOverflow items loading ...
+        </span>
+        <span v-else> StackOverflow items ready! </span>
+      </v-row>
+    </v-overlay>
   </div>
 </template>
 
@@ -135,12 +147,14 @@
 import gitRepository from "@/components/GitRepository";
 import gitIssues from "@/components/GitIssues";
 import gitPull from "@/components/GitPr";
+import stackoverflow from "@/components/Stackoverflow";
 
 export default {
   components: {
     gitRepository,
     gitIssues,
     gitPull,
+    stackoverflow,
   },
   created() {
     this.$store.dispatch("toogleHeaderAndFooter");
@@ -148,6 +162,7 @@ export default {
     this.$store.dispatch("fetchGitRepositories");
     this.$store.dispatch("fetchGitIssues");
     this.$store.dispatch("fetchGitPullRequests");
+    this.$store.dispatch("fetchStackoverflow");
   },
 
   computed: {

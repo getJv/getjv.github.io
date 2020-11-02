@@ -4,7 +4,7 @@ const state = {
   loadingGitRepositories: false,
   loadingGitIssues: false,
   loadingGitPull: false,
-  loadingSO: false,
+  loadingStackoverflow: false,
 
   portfolioItems: [],
   tags: [
@@ -19,6 +19,13 @@ const state = {
         tag: "git-issue",
         color: "blue darken-3",
         icon: "mdi-github",
+        type: 'domain',
+        
+      },
+      {
+        tag: "stackoverflow",
+        color: "yellow darken-3",
+        icon: "mdi-stack-overflow",
         type: 'domain',
         
       },
@@ -133,12 +140,18 @@ const getters = {
   loadingGitRepositories: (state) => state.loadingGitRepositories,
   loadingGitIssues:  (state) => state.loadingGitIssues,
   loadingGitPull:  (state) => state.loadingGitPull,
-  loadingSO: (state) => state.loadingSOposts,
-  loadingPortfolio: (state) => state.loadingGitRepositories &&  state.loadingGitIssues && state.loadingSOposts,
+  loadingStackoverflow: (state) => state.loadingStackoverflow,
+  loadingPortfolio: (state) => { 
+    return state.loadingGitRepositories &&
+      state.loadingGitIssues &&
+      state.loadingGitPull &&
+      state.loadingStackoverflow
+  },
   
   portfolioItems: (state) => { 
 
     return state.portfolioItems.sort((a, b) => {
+      
       if (a.date > b.date) {
         return -1;
       }
@@ -202,7 +215,7 @@ const actions = {
             description: splitedDescription[0],
             url: item.html_url,
             homepage: item.homepage,
-            date: item.created_at,
+            date: item.updated_at,
             tags: splitedDescription[1]
               .toLowerCase()
               .replace(/ /g, "")
@@ -279,6 +292,34 @@ const actions = {
       commit('loadingGitPull', false);
     }
     
+  },
+  async fetchStackoverflow({ commit }) {
+    try {
+      commit('loadingStackoverflow', true);
+      const { data } = await axios.get(process.env.VUE_APP_API_STACKOVERFLOW);
+      
+      data.items.forEach((item) => {
+        var theDate = new Date(item.creation_date * 1000);
+        var labels = item.tags;
+        labels.push('stackoverflow');
+        commit('addPortfolioItems', {
+          type: "stackoverflow",
+          color: "yellow darken-3",
+          icon: "mdi-stack-overflow",
+          name: item.title,
+          description: null,
+          url: item.link,
+          homepage: null,
+          date: theDate.toISOString(),
+          tags: labels
+        })
+      });
+     } catch (error) {
+      console.log(error)
+    } finally{ 
+      commit('loadingStackoverflow', false);
+    }
+    
   }
 };
 const mutations = {
@@ -293,6 +334,9 @@ const mutations = {
   },
   loadingGitPull(state, value) { 
     state.loadingGitPull = value
+  },
+  loadingStackoverflow(state, value) { 
+    state.loadingStackoverflow = value
   }
 };
 

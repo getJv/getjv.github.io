@@ -114,6 +114,7 @@
             cols="12"
             md="4"
             lg="3"
+            xl="2"
             v-for="(item, i) in portfoliItems"
             :key="`${item.name}-${i}`"
           >

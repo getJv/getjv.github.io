@@ -80,7 +80,7 @@ export default {
           icon: "mdi-pdf-box",
           text: "Resume",
           path:
-            "https://raw.githubusercontent.com/getJv/getjv.github.io/master/.github/resume.pdf",
+            "https://raw.githubusercontent.com/getJv/getjv.github.io/master/.github/docs/resume.pdf",
           color: "red darken-3",
         },
         {

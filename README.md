@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="Simuadores" title="Simuladores" src=".github/logo.svg" />
+    <img alt="Jhonatan Portifolio" title="Jhonatan Portifolio" src=".github/logo.svg" />
 </h1>
 
 <p align="center">
@@ -37,5 +37,3 @@ getjv.github.io is my official homepage. There I handled to aggregate all my con
 ## :memo: Licença
 
 Project under MIT license. Visit [LICENSE](LICENSE.md) to more.
-
-<small>Fonte: la Unica 35 px - Photopea</>

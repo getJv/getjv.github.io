@@ -83,11 +83,15 @@
             :icon="item.icon"
             fill-dot
           >
-            <v-component
-              :is="item.type"
-              :smallScreen="smallScreen"
-              :item="item"
-            />
+            <v-row align="center" :justify="i % 2 == 0 ? 'start' : 'end'">
+              <v-col cols="12" md="6">
+                <v-component
+                  :is="item.type"
+                  :smallScreen="smallScreen"
+                  :item="item"
+                />
+              </v-col>
+            </v-row>
           </v-timeline-item>
         </v-timeline>
       </span>

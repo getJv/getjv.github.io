@@ -9,9 +9,7 @@
     <v-card-subtitle> created on {{ item.date | formatDate }} </v-card-subtitle>
 
     <v-card-text class="">
-      <div class="subtitle-2">
-        {{ item.description }}
-      </div>
+      <vue-simple-markdown :source="item.description"></vue-simple-markdown>
 
       <v-row>
         <span v-for="(tag, index) in item.tags" :key="index">

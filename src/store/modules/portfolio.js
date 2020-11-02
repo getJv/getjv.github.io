@@ -220,7 +220,7 @@ const actions = {
           color: "blue darken-3",
           icon: "mdi-github",
           name: `${item.number} - ${item.title}`,
-          description: '',
+          description: item.body,
           url: item.html_url,
           homepage: null,
           date: item.created_at,

@@ -10,6 +10,12 @@
         </span>
         <span v-else> Git Repositories ready! </span>
       </v-row>
+      <v-row justify="center" align="center">
+        <span v-if="$store.getters.loadingGitIssues">
+          Git issues loading ...
+        </span>
+        <span v-else> Git issues ready! </span>
+      </v-row>
     </v-overlay>
     <div v-else>
       <v-expansion-panels hover focusable>
@@ -27,8 +33,28 @@
                 {{ $store.getters.portfolioItemsSize }} results)
               </small>
             </center>
+            <div class="captain mt-5">
+              Tags by domain area
+            </div>
             <v-divider></v-divider>
-            <span v-for="(item, index) in tagList" :key="index">
+            <span v-for="item in $store.getters.domainTags" :key="item.tag">
+              <v-chip
+                class="mx-2 mt-5"
+                :color="item.color"
+                label
+                :outlined="!filters.includes(item.tag)"
+                :text-color="!filters.includes(item.tag) ? item.color : 'white'"
+                @click="toggleFilter(item.tag)"
+              >
+                <v-icon left> {{ item.icon }} </v-icon>
+                {{ item.tag }}
+              </v-chip>
+            </span>
+            <div class="captain mt-5">
+              Tags by technologies
+            </div>
+            <v-divider></v-divider>
+            <span v-for="item in $store.getters.techTags" :key="item.tag">
               <v-chip
                 class="mx-2 mt-5"
                 :color="item.color"
@@ -56,70 +82,17 @@
       <v-divider></v-divider>
       <v-timeline align-top :dense="smallScreen">
         <v-timeline-item
-          v-for="(item, i) in $store.getters.portfolioItems"
-          :key="i"
+          v-for="(item, i) in portfoliItems"
+          :key="`${item.name}-${i}`"
           :color="item.color"
           :icon="item.icon"
           fill-dot
         >
-          <v-card>
-            <v-card-title :class="`${item.color}`">
-              <div class="title font-weight-bold white--text">
-                {{ item.name }}
-              </div>
-            </v-card-title>
-            <v-divider></v-divider>
-            <v-card-subtitle>
-              created on {{ item.date | formatDate }}
-            </v-card-subtitle>
-
-            <v-card-text class="">
-              <div class="subtitle-2">
-                {{ item.description }}
-              </div>
-
-              <v-row justify="center" align="center">
-                <v-img
-                  :max-width="smallScreen ? 200 : 350"
-                  :src="`${item.url}/blob/master/.github/preview.gif?raw=true`"
-                />
-              </v-row>
-              <v-row>
-                <span v-for="(tag, index) in item.tags" :key="index">
-                  <v-chip
-                    v-if="tag && !smallScreen"
-                    class="mx-2 mt-5"
-                    :color="tagInfo(tag.trim()).color"
-                    label
-                    text-color="white"
-                  >
-                    <v-icon left> {{ tagInfo(tag.trim()).icon }} </v-icon>
-                    {{ tag.trim() }}
-                  </v-chip>
-                </span>
-              </v-row>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-btn small :color="item.color" outlined :href="item.url">
-                Repository
-              </v-btn>
-
-              <v-spacer></v-spacer>
-
-              <v-btn
-                v-if="item.homepage"
-                small
-                :color="item.color"
-                outlined
-                :loading="startingServer.includes(item.name)"
-                @click="startingServer.push(item.name)"
-                :href="item.homepage"
-              >
-                Live Preview
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+          <v-component
+            :is="item.type"
+            :smallScreen="smallScreen"
+            :item="item"
+          />
         </v-timeline-item>
       </v-timeline>
     </div>
@@ -127,19 +100,28 @@
 </template>
 
 <script>
-import moment from "moment";
+import gitRepository from "@/components/GitRepository";
+import gitIssues from "@/components/GitIssues";
+import gitPull from "@/components/GitPr";
 
 export default {
+  components: {
+    gitRepository,
+    gitIssues,
+    gitPull,
+  },
   created() {
     this.$store.dispatch("fetchGitRepositories");
+    this.$store.dispatch("fetchGitIssues");
+    this.$store.dispatch("fetchGitPullRequests");
   },
 
   computed: {
     portfoliItems() {
-      if (this.filters.length === 0) return this.items;
+      if (this.filters.length === 0) return this.$store.getters.portfolioItems;
       var wantedList = [];
       this.filters.forEach((filter) => {
-        this.items.forEach((porfolioItem) => {
+        this.$store.getters.portfolioItems.forEach((porfolioItem) => {
           if (porfolioItem.tags.some((tag) => tag === filter)) {
             if (
               !wantedList.find((filtered) => filtered.name == porfolioItem.name)
@@ -155,20 +137,6 @@ export default {
     smallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
     },
-    loading() {
-      return this.gitLoading;
-    },
-    tagList() {
-      return this.tags.slice(0).sort((a, b) => {
-        if (a.tag < b.tag) {
-          return -1;
-        }
-        if (a.tag > b.tag) {
-          return 1;
-        }
-        return 0;
-      });
-    },
   },
   methods: {
     toggleFilter(tagName) {
@@ -179,115 +147,14 @@ export default {
         this.filters.push(tagName);
       }
     },
-    tagInfo(tagName) {
-      return (
-        this.tags.find((item) => item.tag == tagName) || {
-          tag: tagName,
-          color: "cyan darken-2",
-          icon: "mdi-label",
-        }
-      );
-    },
+
     randomTimer() {
       return Math.floor(Math.random() * 3000 + 3000);
     },
   },
   data: () => ({
     filters: [],
-    startingServer: [],
-    tags: [
-      {
-        tag: "portfolio",
-        color: "purple darken-1",
-        icon: "mdi-github",
-      },
-      {
-        tag: "interview-test",
-        color: "cyan darken-2",
-        icon: "mdi-lan-check",
-      },
-      {
-        tag: "php",
-        color: "blue darken-3",
-        icon: "mdi-language-php",
-      },
-      {
-        tag: "laravel",
-        color: "orange darken-5",
-        icon: "mdi-laravel",
-      },
-      {
-        tag: "html",
-        color: "orange darken-3",
-        icon: "mdi-language-html5",
-      },
-      {
-        tag: "typescript",
-        color: "red darken-3",
-        icon: "mdi-language-typescript",
-      },
-      {
-        tag: "java",
-        color: "blue-gray darken-3",
-        icon: "mdi-language-java",
-      },
-      {
-        tag: "javascript",
-        color: "yellow darken-3",
-        icon: "mdi-language-javascript",
-      },
-      {
-        tag: "docker",
-        color: "blue darken-1",
-        icon: "mdi-docker",
-      },
-      {
-        tag: "docker-compose",
-        color: "blue darken-1",
-        icon: "mdi-docker",
-      },
-      {
-        tag: "css",
-        color: "pink darken-1",
-        icon: "mdi-language-css3",
-      },
-      {
-        tag: "tailwind",
-        color: "green darken-1",
-        icon: "mdi-weather-windy-variant",
-      },
-      {
-        tag: "vuetify",
-        color: "blue darken-1",
-        icon: "mdi-vuetify",
-      },
-      {
-        tag: "reactjs",
-        color: "blue darken-1",
-        icon: "mdi-react",
-      },
-      {
-        tag: "tdd",
-        color: "red darken-1",
-        icon: "mdi-test-tube",
-      },
-      {
-        tag: "php-unit",
-        color: "red darken-1",
-        icon: "mdi-test-tube",
-      },
-      {
-        tag: "vuejs",
-        color: "green darken-3",
-        icon: "mdi-vuejs",
-      },
-    ],
   }),
-  filters: {
-    formatDate(value) {
-      return moment(String(value)).format("YYYY-MM-DD hh:mm");
-    },
-  },
 };
 </script>
 <style scoped>

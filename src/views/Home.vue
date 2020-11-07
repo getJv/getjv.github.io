@@ -25,7 +25,7 @@
                 Full stack Developer
               </div>
               <div class="text-center caption mb-7  ">
-                Laravel | Springboot | VueJS | Flutter
+                Laravel | Springboot | VueJS | ReactJS
               </div>
               <div class="text-center">
                 <v-btn

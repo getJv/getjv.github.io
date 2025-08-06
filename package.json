@@ -13,7 +13,7 @@
     "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@tailwindcss/typography": "^0.5.16",
-        "axios": "^1.7.9",
+        "axios": "^1.8.2",
         "crypto-js": "^4.2.0",
         "dayjs": "^1.11.13",
         "flowbite": "^1.8.0",
